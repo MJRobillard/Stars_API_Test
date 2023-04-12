@@ -7,7 +7,12 @@ img {
 	width: 10%;
 	padding: .5rem;
 }
+/*CSS for the div container for Task 3*/ 
 
+#q3-container img {
+	width: 10%;
+	padding: .5rem;
+}
 body {
 	padding-bottom: 4rem;;
 }

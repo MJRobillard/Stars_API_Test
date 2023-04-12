@@ -42,21 +42,32 @@ const load_q2 = () => {
 	});
 }
 
+//inside of apod-frontend/index.js for Task 3
+
 const load_q3 = () => {
 	const input = document.getElementById("q3-input").value;
 	if (input !== "") {
 		document.getElementById("q3-header").innerHTML = "Loading...";
-		document.getElementById("q3-img").src = "";
+		document.getElementById("q3-container").innerHTML = "";
 		document.getElementById("q3-load").disabled = true;
 
 		const month_tokens = input.split("-");
 
 		axios.get(`http://localhost:3000/apods-for-month?month=${month_tokens[1]}&&year=${month_tokens[0]}`, {timeout: 10 * 1000}).then((body) => {
 			console.log("Received response from server for Q3: ", body.data);
-			const random_apod = body.data[Math.floor(Math.random() * body.data.length)];
-			document.getElementById("q3-header").innerHTML = `${random_apod.name} (${random_apod.date})`;
-			document.getElementById("q3-img").src = random_apod.url;
+			const apods = body.data;
+			document.getElementById("q3-header").innerHTML = `Loaded ${apods.length} images`;
 			document.getElementById("q3-load").disabled = false;
+			for (const apod of apods) {
+				console.log(apod); 
+				const img = document.createElement("img");
+				img.src = apod.url;
+				const a = document.createElement("a");
+				a.href = apod.url;
+				a.target = "_blank";
+				a.appendChild(img)
+				document.getElementById("q3-container").appendChild(a);
+			}
 		}, (err) => {
 			console.log("Error: ", err);
 			document.getElementById("q3-header").innerHTML = "Error!";
